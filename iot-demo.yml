@@ -937,7 +937,7 @@ objects:
           - name: BROKER_PASSWORD
             value: ${BROKER_PASSWORD}
           - name: ADDITIONAL_SENSOR_IDS
-            value: ${ADDITIONAL_SENSOR_IDS}
+            value: "SIM:3:4:2:5"
           image: datastore-proxy
           imagePullPolicy: Always
           lifecycle:

@@ -27,6 +27,11 @@
         </license>
     </licenses>
     <repositories>
+    	<repository>
+            <id>TBO-Proxy</id>
+            <name>tbonexus</name>
+            <url>http://tdeborge.homeip.net/nexus/repository/RHJBossMiddleware/</url>
+        </repository>
         <repository>
             <id>redhat-ga</id>
             <name>Red Hat GA Repo</name>

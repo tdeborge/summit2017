@@ -14,13 +14,34 @@
  */
 package com.redhat.iot.cargodemo.rest;
 
-import com.redhat.iot.cargodemo.model.*;
-import com.redhat.iot.cargodemo.service.DGService;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
-import javax.ws.rs.*;
-import java.util.*;
+import javax.ws.rs.GET;
+import javax.ws.rs.POST;
+import javax.ws.rs.PUT;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import com.redhat.iot.cargodemo.model.Customer;
+import com.redhat.iot.cargodemo.model.Facility;
+import com.redhat.iot.cargodemo.model.LatLng;
+import com.redhat.iot.cargodemo.model.Operator;
+import com.redhat.iot.cargodemo.model.Shipment;
+import com.redhat.iot.cargodemo.model.Summary;
+import com.redhat.iot.cargodemo.model.Telemetry;
+import com.redhat.iot.cargodemo.model.Vehicle;
+import com.redhat.iot.cargodemo.service.DGService;
 
 /**
  * A simple REST service which proxies requests to a local datagrid.
@@ -30,8 +51,10 @@ import java.util.*;
 @Singleton
 public class UtilsEndpoint {
 
-    public static final int MAX_VEHICLES = 1;
-    public static final int MAX_PACKAGES_PER_VEHICLE = 3;
+	private static final Logger logger = LoggerFactory.getLogger(UtilsEndpoint.class);
+	
+    public static final int MAX_VEHICLES = 2;
+    public static final int MAX_PACKAGES_PER_VEHICLE = 1;
     public static final long DAY_IN_MS = 24*60*60*1000;
 
     @Inject
@@ -46,6 +69,38 @@ public class UtilsEndpoint {
     @POST
     @Path("/resetAll")
     public void resetAll() {
+    	boolean simBalance = false;
+    	String[] strnums = null;
+    	//boolean createDynamicSimulation = false;
+    	logger.warn("TIM IS HERE .... TRACE THIS!!!!");
+    	String simulator = System.getenv("ADDITIONAL_SENSOR_IDS");
+    	logger.warn("Simulator Data = " + simulator);
+    	
+    	if(simulator != null && !simulator.equals("")){
+    		logger.warn("Simulator data is set and will be parsed");  
+    		if(simulator.startsWith("SIM:")){
+    			logger.warn("Need to parse the sim data here");
+    		}
+    		
+    		//Extract the number list ...
+    		String numbers = simulator.substring("SIM:".length());
+    		logger.warn("The String to work with = " + numbers);
+    		//Convert number list in number Array List
+    		strnums = numbers.split(":");
+    		//Check size value and adjust if needed
+    		if(strnums.length > Integer.valueOf(strnums[0])){
+    			logger.warn("The number of trucks and packages do balance");
+    			simBalance=true;
+    			logger.warn("Will create the following:");
+    			logger.warn("#Trucks: " + strnums[0]);
+    			for(int i = 1; i < strnums.length;i++){
+    				logger.warn("# Packages on Truck " + i + " = " + strnums[i]);
+    			}
+    		}
+    		else{
+    			logger.warn("Error in the Simulator data ---- will use default simulation pupulation");
+    		}  		
+    	}
 
         Map<String, Vehicle> vehiclesCache = dgService.getVehicles();
         Map<String, Customer> customerCache = dgService.getCustomers();
@@ -81,8 +136,67 @@ public class UtilsEndpoint {
                             Math.random() * 1000.0));
 
         }
+        
+        if(simBalance){
+        	insertSimulatedRandomData(facilitiesCache, customerCache, vehiclesCache, shipmentCache, strnums);
+        }
+        else{
+        	insertFullRandomData(facilitiesCache, customerCache, vehiclesCache, shipmentCache);
+        }
+       
+        calcUtilization();
 
+    }
+    
+    private void insertSimulatedRandomData(Map<String, Facility> facilitiesCache, Map<String, Customer> customerCache,
+			Map<String, Vehicle> vehiclesCache, Map<String, Shipment> shipmentCache, String[] strnums) {
+		// TODO Auto-generated method stub
+    	int [] numbers = new int[strnums.length];
+    	for (int i = 0; i < strnums.length; i++) {
+			numbers[i] = Integer.valueOf(strnums[i]);
+		}
+    	
+    	//# Vehicles = [0]
+    	//# Packages = [>0] and is balanced or bigger as this is checked before ...
+    	
+    	for(int i = 1; i <= numbers[0]; i++){
+    		logger.warn("Creating Vehicle: " + i);
+    		String vin = "truck-" + i;
 
+            Vehicle newVehicle = new Vehicle(vin, rand(VEHICLE_TYPES));
+
+            Facility v_origin = facilitiesCache.get(rand(ORIGINS));
+            Facility v_dest = facilitiesCache.get(rand(DESTS));
+
+            newVehicle.setOrigin(v_origin);
+            newVehicle.setDestination(v_dest);
+
+            List<Telemetry> vehicleTelemetry = new ArrayList<>();
+            vehicleTelemetry.add(new Telemetry("°C", 250.0, 150.0, "Engine Temp", "temp"));
+            vehicleTelemetry.add(new Telemetry("rpm", 2200.0, 500.0, "RPM", "rpm"));
+            vehicleTelemetry.add(new Telemetry("psi", 80.0, 30.0, "Oil Pressure", "oilpress"));
+            newVehicle.setTelemetry(vehicleTelemetry);
+
+            Date v_eta = new Date(new Date().getTime() + DAY_IN_MS + (long)(Math.random() * DAY_IN_MS * 2));
+
+            newVehicle.setEta(v_eta);
+            vehiclesCache.put(vin, newVehicle);
+            
+            //Creating packages per vehicle
+            //As the index is 1 bound instead of 0 bound I can just get the i parameter to reference the number of packages.
+            
+            for(int j = 1; j<= numbers[i]; j++){
+            	logger.warn("Creating package " + j + " for truck: " + i );
+            	addShipment(customerCache, facilitiesCache, shipmentCache, vin, newVehicle, v_dest, "pkg-" + i + "_" + j,
+                        rand(PKG_DESCS));
+            }
+            
+    		
+    	}
+		
+	}
+
+	private void insertFullRandomData(Map<String, Facility>facilitiesCache, Map<String, Customer> customerCache, Map<String, Vehicle>vehiclesCache, Map<String, Shipment>shipmentCache){
         for (int i = 1; i <= MAX_VEHICLES; i++) {
 
             String vin = "truck-" + i;
@@ -123,8 +237,6 @@ public class UtilsEndpoint {
             }
 
         }
-        calcUtilization();
-
     }
 
     private void addShipment(Map<String, Customer> customerCache, Map<String, Facility> facilitiesCache,
