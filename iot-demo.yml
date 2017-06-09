@@ -59,7 +59,7 @@ parameters:
   value: https://github.com/tdeborge/summit2017.git
 - description: Git branch/tag reference
   name: GIT_REF
-  value: DemoDataFix
+  value: origin/DemoDataFix
 - description: MQ Broker username
   name: BROKER_USERNAME
   value: "demo-gw2"
