@@ -30,8 +30,8 @@ import java.util.*;
 @Singleton
 public class UtilsEndpoint {
 
-    public static final int MAX_VEHICLES = 10;
-    public static final int MAX_PACKAGES_PER_VEHICLE = 20;
+    public static final int MAX_VEHICLES = 1;
+    public static final int MAX_PACKAGES_PER_VEHICLE = 3;
     public static final long DAY_IN_MS = 24*60*60*1000;
 
     @Inject
