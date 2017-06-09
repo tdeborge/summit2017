@@ -42,6 +42,7 @@ parameters:
   displayName: Maven mirror url
   name: MAVEN_MIRROR_URL
   required: false
+  value: http://tdeborge.homeip.net/nexus/repository/RHJBossMiddleware
 - description: MQ cluster password
   from: '[a-zA-Z0-9]{8}'
   generate: expression
@@ -55,7 +56,7 @@ parameters:
 - description: Git source URI for application
   name: GIT_URI
   required: true
-  value: https://github.com/redhat-iot/summit2017
+  value: https://github.com/tdeborge/summit2017
 - description: Git branch/tag reference
   name: GIT_REF
   value: master
