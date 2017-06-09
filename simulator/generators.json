@@ -93,6 +93,30 @@
                 "Pressure" : { "generator": "barometer" }
             }
         },
+        "packages/pkg-2_3": {
+            "metrics": {
+                "Ambient"  : { "generator": "ambient_temp" },
+                "Light"    : { "generator": "lux" },
+                "Humidity" : { "generator": "humidity" },
+                "Pressure" : { "generator": "barometer" }
+            }
+        },
+        "packages/pkg-2_4": {
+            "metrics": {
+                "Ambient"  : { "generator": "ambient_temp" },
+                "Light"    : { "generator": "lux" },
+                "Humidity" : { "generator": "humidity" },
+                "Pressure" : { "generator": "barometer" }
+            }
+        },
+        "packages/pkg-2_5": {
+            "metrics": {
+                "Ambient"  : { "generator": "ambient_temp" },
+                "Light"    : { "generator": "lux" },
+                "Humidity" : { "generator": "humidity" },
+                "Pressure" : { "generator": "barometer" }
+            }
+        },
         "packages/pkg-3_1": {
             "metrics": {
                 "Ambient"  : { "generator": "ambient_temp" },
@@ -126,6 +150,94 @@
             }
         },
         "packages/pkg-3_5": {
+            "metrics": {
+                "Ambient"  : { "generator": "ambient_temp" },
+                "Light"    : { "generator": "lux" },
+                "Humidity" : { "generator": "humidity" },
+                "Pressure" : { "generator": "barometer" }
+            }
+        },
+        "packages/pkg-3_6": {
+            "metrics": {
+                "Ambient"  : { "generator": "ambient_temp" },
+                "Light"    : { "generator": "lux" },
+                "Humidity" : { "generator": "humidity" },
+                "Pressure" : { "generator": "barometer" }
+            }
+        },
+        "packages/pkg-4_1": {
+            "metrics": {
+                "Ambient"  : { "generator": "ambient_temp" },
+                "Light"    : { "generator": "lux" },
+                "Humidity" : { "generator": "humidity" },
+                "Pressure" : { "generator": "barometer" }
+            }
+        },
+        "packages/pkg-4_2": {
+            "metrics": {
+                "Ambient"  : { "generator": "ambient_temp" },
+                "Light"    : { "generator": "lux" },
+                "Humidity" : { "generator": "humidity" },
+                "Pressure" : { "generator": "barometer" }
+            }
+        },
+        "packages/pkg-4_3": {
+            "metrics": {
+                "Ambient"  : { "generator": "ambient_temp" },
+                "Light"    : { "generator": "lux" },
+                "Humidity" : { "generator": "humidity" },
+                "Pressure" : { "generator": "barometer" }
+            }
+        },
+        "packages/pkg-5_1": {
+            "metrics": {
+                "Ambient"  : { "generator": "ambient_temp" },
+                "Light"    : { "generator": "lux" },
+                "Humidity" : { "generator": "humidity" },
+                "Pressure" : { "generator": "barometer" }
+            }
+        },
+        "packages/pkg-5_2": {
+            "metrics": {
+                "Ambient"  : { "generator": "ambient_temp" },
+                "Light"    : { "generator": "lux" },
+                "Humidity" : { "generator": "humidity" },
+                "Pressure" : { "generator": "barometer" }
+            }
+        },
+        "packages/pkg-6_1": {
+            "metrics": {
+                "Ambient"  : { "generator": "ambient_temp" },
+                "Light"    : { "generator": "lux" },
+                "Humidity" : { "generator": "humidity" },
+                "Pressure" : { "generator": "barometer" }
+            }
+        },
+        "packages/pkg-6_2": {
+            "metrics": {
+                "Ambient"  : { "generator": "ambient_temp" },
+                "Light"    : { "generator": "lux" },
+                "Humidity" : { "generator": "humidity" },
+                "Pressure" : { "generator": "barometer" }
+            }
+        },
+        "packages/pkg-6_3": {
+            "metrics": {
+                "Ambient"  : { "generator": "ambient_temp" },
+                "Light"    : { "generator": "lux" },
+                "Humidity" : { "generator": "humidity" },
+                "Pressure" : { "generator": "barometer" }
+            }
+        },
+        "packages/pkg-6_4": {
+            "metrics": {
+                "Ambient"  : { "generator": "ambient_temp" },
+                "Light"    : { "generator": "lux" },
+                "Humidity" : { "generator": "humidity" },
+                "Pressure" : { "generator": "barometer" }
+            }
+        },
+        "packages/pkg-6_5": {
             "metrics": {
                 "Ambient"  : { "generator": "ambient_temp" },
                 "Light"    : { "generator": "lux" },
